@@ -8,8 +8,9 @@ class CurrenciesView extends StatefulWidget {
 class _CurrenciesViewState extends State<CurrenciesView> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Text('show current stock'),
+    return Center(
+      child: Text('show current stock',
+          style: Theme.of(context).textTheme.headline),
     );
   }
 }

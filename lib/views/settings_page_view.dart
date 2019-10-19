@@ -5,18 +5,21 @@ class SettingsPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          color: Colors.white,
+          color: Theme.of(context).iconTheme.color,
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Settings',
-          style: TextStyle(color: Colors.white),
         ),
       ),
-      body: const Text('You are in settings'),
+      body: Text(
+        'You are in settings',
+        style: Theme.of(context).textTheme.body1,
+      ),
     );
   }
 }
