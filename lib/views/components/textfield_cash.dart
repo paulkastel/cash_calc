@@ -22,15 +22,13 @@ class _TextFieldCashState extends State<TextFieldCash> {
   }
 
   void _setAutoValidation(bool isAutoValid) {
-    setState(() {
-      _autoValidation = isAutoValid;
-    });
+    setState(() => _autoValidation = isAutoValid);
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 40, 20, 10),
+      padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
       child: Container(
         width: 280,
         child: Form(

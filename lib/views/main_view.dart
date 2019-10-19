@@ -18,9 +18,8 @@ class _MainPageViewState extends State<MainPageView> {
   final PageController _pageCtrlr = PageController(initialPage: 0);
   int _selectedViewIndex = 0;
 
-  void onPageChanged(int selPageId) => setState(() {
-        _selectedViewIndex = selPageId;
-      });
+  void onPageChanged(int selPageId) =>
+      setState(() => _selectedViewIndex = selPageId);
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +93,7 @@ class _MainPageViewState extends State<MainPageView> {
         onTap: (int currentSelectedPageIndex) {
           _pageCtrlr.animateToPage(currentSelectedPageIndex,
               curve: Curves.fastLinearToSlowEaseIn,
-              duration: Duration(seconds: 1));
+              duration: const Duration(seconds: 1));
           onPageChanged(currentSelectedPageIndex);
         },
       ),
