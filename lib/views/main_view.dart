@@ -1,6 +1,7 @@
+import 'package:cash_calc/utils/app_colors.dart';
 import 'package:cash_calc/utils/app_routes.dart';
-import 'package:cash_calc/views/count_currencies_view.dart';
 import 'package:cash_calc/views/currencies_view.dart';
+import 'package:cash_calc/views/exchange_view.dart';
 import 'package:flutter/material.dart';
 
 class MainPageView extends StatefulWidget {
@@ -10,7 +11,7 @@ class MainPageView extends StatefulWidget {
 
 class _MainPageViewState extends State<MainPageView> {
   final List<Widget> _children = [
-    CountMoneyView(),
+    ExchangeMoneyView(),
     CurrenciesView(),
   ];
 
@@ -25,16 +26,15 @@ class _MainPageViewState extends State<MainPageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Cash Calculator',
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w700, fontSize: 29),
+          style: Theme.of(context).textTheme.title,
         ),
         actions: <Widget>[
           PopupMenuButton<String>(
             icon: Icon(
               Icons.settings,
-              color: Colors.white,
+              color: Theme.of(context).iconTheme.color,
             ),
             onSelected: (String choosenOption) {
               switch (choosenOption) {
@@ -49,25 +49,34 @@ class _MainPageViewState extends State<MainPageView> {
               return ['Settings'].map((String option) {
                 return PopupMenuItem<String>(
                   value: option,
-                  child: Text(option),
+                  child: Text(option, style: Theme.of(context).textTheme.body1),
                 );
               }).toList();
             },
           )
         ],
       ),
-      body: PageView(
-        controller: _pageCtrlr,
-        onPageChanged: (int currentSelectedPageIndex) =>
-            onPageChanged(currentSelectedPageIndex),
-        children: _children,
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [AppColors.olive, AppColors.white],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const [0.7, 1])),
+        child: PageView(
+          controller: _pageCtrlr,
+          onPageChanged: (int currentSelectedPageIndex) =>
+              onPageChanged(currentSelectedPageIndex),
+          children: _children,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
+        // TODO(paulkastel): depending on the screen it should do different thing
         tooltip: 'Search for currencies',
         onPressed: () {},
         child: Icon(
           Icons.search,
-          color: Colors.white,
+          color: Theme.of(context).iconTheme.color,
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -75,7 +84,7 @@ class _MainPageViewState extends State<MainPageView> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.import_export),
-            title: const Text('Count'),
+            title: const Text('Exchange'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance),
