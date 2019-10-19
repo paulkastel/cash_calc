@@ -1,3 +1,4 @@
+import 'package:cash_calc/utils/app_routes.dart';
 import 'package:cash_calc/views/count_currencies_view.dart';
 import 'package:cash_calc/views/currencies_view.dart';
 import 'package:flutter/material.dart';
@@ -35,12 +36,22 @@ class _MainPageViewState extends State<MainPageView> {
               Icons.settings,
               color: Colors.white,
             ),
+            onSelected: (String choosenOption) {
+              switch (choosenOption) {
+                case 'Settings':
+                  Navigator.pushNamed(context, AppRoutes.settingsNav);
+                  break;
+                default:
+                  throw Exception('No specific option to navigate');
+              }
+            },
             itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                  child: const Text('Settings'),
-                )
-              ];
+              return ['Settings'].map((String option) {
+                return PopupMenuItem<String>(
+                  value: option,
+                  child: Text(option),
+                );
+              }).toList();
             },
           )
         ],
@@ -60,22 +71,24 @@ class _MainPageViewState extends State<MainPageView> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedViewIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.import_export),
-              title: const Text('Count'),
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.account_balance),
-                title: const Text('Currencies'))
-          ],
-          onTap: (int currentSelectedPageIndex) {
-            _pageCtrlr.animateToPage(currentSelectedPageIndex,
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: Duration(seconds: 1));
-            onPageChanged(currentSelectedPageIndex);
-          }),
+        currentIndex: _selectedViewIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.import_export),
+            title: const Text('Count'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance),
+            title: const Text('Currencies'),
+          ),
+        ],
+        onTap: (int currentSelectedPageIndex) {
+          _pageCtrlr.animateToPage(currentSelectedPageIndex,
+              curve: Curves.fastLinearToSlowEaseIn,
+              duration: Duration(seconds: 1));
+          onPageChanged(currentSelectedPageIndex);
+        },
+      ),
     );
   }
 }
