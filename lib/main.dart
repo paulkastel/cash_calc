@@ -1,4 +1,5 @@
-import 'package:cash_calc/views/main_page_view.dart';
+
+import 'package:cash_calc/views/main_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
