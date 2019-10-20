@@ -64,27 +64,33 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                         color: Theme.of(context).primaryColorLight,
                         elevation: 2,
                         child: ListTile(
-                          leading: CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Theme.of(context).iconTheme.color,
-                            child: Text(
-                              _favouriteCurrencies[index].flag,
-                              style: Theme.of(context).textTheme.title,
-                            ),
-                          ),
-                          title: Text(_favouriteCurrencies[index].isoCode),
-                          subtitle: Text(_favouriteCurrencies[index].name),
-                          onTap: () {
-                            print(_favouriteCurrencies[index].isoCode);
-                            Navigator.push<MaterialPageRoute>(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CurrencyDetailsView(
-                                    _favouriteCurrencies[index]),
+                            leading: CircleAvatar(
+                              radius: 25,
+                              backgroundColor:
+                                  Theme.of(context).iconTheme.color,
+                              child: Text(
+                                _favouriteCurrencies[index].flag,
+                                style: Theme.of(context).textTheme.title,
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                            title: Text(_favouriteCurrencies[index].isoCode),
+                            subtitle: Text(_favouriteCurrencies[index].name),
+                            onTap: () {
+                              print(_favouriteCurrencies[index].isoCode);
+                              Navigator.push<MaterialPageRoute>(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CurrencyDetailsView(
+                                      _favouriteCurrencies[index]),
+                                ),
+                              );
+                            },
+                            onLongPress: () {
+                              _showSnackBar(context,
+                                  'You stopped observing: ${_favouriteCurrencies[index].name}');
+                              setState(
+                                  () => _favouriteCurrencies.removeAt(index));
+                            }),
                       );
                     },
                   ),
