@@ -1,3 +1,4 @@
+import 'package:cash_calc/repositories/api_handler.dart';
 import 'package:cash_calc/repositories/db_handler.dart';
 import 'package:cash_calc/utils/app_colors.dart';
 import 'package:cash_calc/utils/app_routes.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   dbHandler = DbHandler();
+  apiHandler = ApiHandler();
   runApp(CashCalcApp());
 }
 

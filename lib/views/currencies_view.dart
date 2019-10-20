@@ -62,7 +62,6 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                   title: Text(items[index].isoCode),
                                   subtitle: Text(items[index].name),
                                   onTap: () {
-                                    print(items[index].isoCode);
                                     Navigator.push<MaterialPageRoute>(
                                       context,
                                       MaterialPageRoute(
