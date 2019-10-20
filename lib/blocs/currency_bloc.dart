@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cash_calc/models/currency_model.dart';
-import 'package:cash_calc/network_layer/api.dart';
+import 'package:cash_calc/repositories/db_handler.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
 
 class CurrencyBloc implements BlocBase {
@@ -45,14 +45,14 @@ class CurrencyBloc implements BlocBase {
 
   void changeUserBaseCurrency(Currency money) {
     selectedCurrency = money;
-    api.updateBaseCurrency(money);
+    dbHandler.updateBaseCurrency(money);
   }
 
   bool addFavCurrency(Currency favCurrency) {
     if (!favCurrencies.contains(favCurrency)) {
       selectedCurrency = favCurrency;
       _inFavCurrencyList.add(favCurrencies);
-      api.addUserFavouriteCurrency(favCurrency);
+      dbHandler.addUserFavouriteCurrency(favCurrency);
       return true;
     } else {
       return false;
@@ -62,7 +62,7 @@ class CurrencyBloc implements BlocBase {
   bool removeFavCurrency(Currency favCurrency) {
     if (favCurrencies.contains(favCurrency)) {
       _inFavCurrencyList.add(favCurrencies);
-      api.deleteUserFavouriteCurrency(favCurrency);
+      dbHandler.deleteUserFavouriteCurrency(favCurrency);
       return true;
     } else {
       return false;
@@ -70,7 +70,7 @@ class CurrencyBloc implements BlocBase {
   }
 
   void getDataFromApi() {
-    selectedCurrency = api.appUser.baseCurrency;
-    favCurrencies = api.appUser.favesCurrencies;
+    selectedCurrency = dbHandler.appUser.baseCurrency;
+    favCurrencies = dbHandler.appUser.favesCurrencies;
   }
 }

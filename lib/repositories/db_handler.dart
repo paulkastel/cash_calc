@@ -1,15 +1,14 @@
-library api.x;
+library api.app_database;
 
 import 'package:cash_calc/models/currency_model.dart';
 import 'package:cash_calc/models/user_model.dart';
 
-ApiHandler api;
+DbHandler dbHandler;
 
-class ApiHandler {
-  ApiHandler() {
+class DbHandler {
+  DbHandler() {
     appUser = User(currencies[4]);
   }
-  static const String httpAdress = 'https://api.exchangeratesapi.io/';
   User appUser;
 
   void updateBaseCurrency(Currency newMoney) {
