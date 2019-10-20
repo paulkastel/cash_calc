@@ -1,6 +1,7 @@
 import 'package:cash_calc/models/currency_model.dart';
 
 class User {
+  User(this._baseCurrency);
   Currency _baseCurrency;
 
   Currency get baseCurrency => _baseCurrency;
@@ -10,4 +11,8 @@ class User {
       _baseCurrency = base;
     }
   }
+
+  final List<Currency> _favouriteCurrencies = List<Currency>();
+
+  List<Currency> get favesCurrencies => _favouriteCurrencies;
 }
