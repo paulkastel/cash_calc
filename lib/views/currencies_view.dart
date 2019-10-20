@@ -10,15 +10,6 @@ class CurrenciesView extends StatefulWidget {
 }
 
 class _CurrenciesViewState extends State<CurrenciesView> {
-  List<Currency> _favouriteCurrencies;
-  Currency _selectedCurrency = currencies[0];
-
-  @override
-  void initState() {
-    _favouriteCurrencies ??= List<Currency>();
-    super.initState();
-  }
-
   void _showSnackBar(BuildContext context, String message) {
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(message),
@@ -34,8 +25,8 @@ class _CurrenciesViewState extends State<CurrenciesView> {
         Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: StreamBuilder<Currency>(
-              stream: _moneyBloc.outStreamCurrencyCtrlr,
-              initialData: _selectedCurrency,
+              stream: _moneyBloc.outSelectedCurrency,
+              initialData: _moneyBloc.selectedCurrency,
               builder:
                   (BuildContext context, AsyncSnapshot<Currency> snapshot) {
                 return DropdownButton<Currency>(
@@ -43,9 +34,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                   value: snapshot.data,
                   onChanged: (Currency selected) {
                     setState(() {
-                      if (!_favouriteCurrencies.contains(selected)) {
-                        _moneyBloc.addNewFavCurrency(selected);
-                        _selectedCurrency = selected;
+                      if (_moneyBloc.addFavCurrency(selected)) {
                         _showSnackBar(
                             context, 'You observe now: ${selected.name} rates');
                       }
@@ -63,46 +52,54 @@ class _CurrenciesViewState extends State<CurrenciesView> {
             )),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
-            child: _favouriteCurrencies.isEmpty
-                ? const Text('You don\'t follow any rate')
-                : ListView.builder(
-                    itemCount: _favouriteCurrencies.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        color: Theme.of(context).primaryColorLight,
-                        elevation: 2,
-                        child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 25,
-                              backgroundColor:
-                                  Theme.of(context).iconTheme.color,
-                              child: Text(
-                                _favouriteCurrencies[index].flag,
-                                style: Theme.of(context).textTheme.title,
-                              ),
-                            ),
-                            title: Text(_favouriteCurrencies[index].isoCode),
-                            subtitle: Text(_favouriteCurrencies[index].name),
-                            onTap: () {
-                              print(_favouriteCurrencies[index].isoCode);
-                              Navigator.push<MaterialPageRoute>(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CurrencyDetailsView(
-                                      _favouriteCurrencies[index]),
-                                ),
-                              );
-                            },
-                            onLongPress: () {
-                              _showSnackBar(context,
-                                  'You stopped observing: ${_favouriteCurrencies[index].name}');
-                              setState(
-                                  () => _favouriteCurrencies.removeAt(index));
-                            }),
-                      );
-                    },
-                  ),
+            padding: const EdgeInsets.all(20.0),
+            child: StreamBuilder<List<Currency>>(
+                stream: _moneyBloc.outFavCurrencyList,
+                initialData: _moneyBloc.favCurrencies,
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Currency>> snapshot) {
+                  return snapshot.data.isEmpty
+                      ? const Text('You don\'t follow any rate')
+                      : ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final List<Currency> items =
+                                snapshot.data.reversed.toList();
+                            return Card(
+                              color: Theme.of(context).primaryColorLight,
+                              elevation: 2,
+                              child: ListTile(
+                                  leading: CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor:
+                                        Theme.of(context).iconTheme.color,
+                                    child: Text(
+                                      items[index].flag,
+                                      style: Theme.of(context).textTheme.title,
+                                    ),
+                                  ),
+                                  title: Text(items[index].isoCode),
+                                  subtitle: Text(items[index].name),
+                                  onTap: () {
+                                    print(items[index].isoCode);
+                                    Navigator.push<MaterialPageRoute>(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            CurrencyDetailsView(items[index]),
+                                      ),
+                                    );
+                                  },
+                                  onLongPress: () {
+                                    _showSnackBar(context,
+                                        'You stopped observing: ${items[index].name}');
+                                    // setState(() => _moneyBloc
+                                    //     .removeFavCurrency(items[index]));
+                                  }),
+                            );
+                          },
+                        );
+                }),
           ),
         )
       ],

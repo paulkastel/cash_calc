@@ -6,37 +6,71 @@ import 'package:cash_calc/services/bloc_provider.dart';
 
 class CurrencyBloc implements BlocBase {
   CurrencyBloc() {
-    _streamSettingBaseCurrency.stream.listen(changeUserBaseCurrency);
+    getDataFromApi();
   }
 
-  final StreamController<Currency> _streamCurrencyCtrlr =
-      StreamController<Currency>.broadcast();
+  List<Currency> favCurrencies;
 
-  final StreamController<Currency> _streamSettingBaseCurrency =
-      StreamController<Currency>();
+  Currency _slectedCurrency;
+
+  Currency get selectedCurrency => _slectedCurrency;
+
+  set selectedCurrency(Currency val) {
+    if (val != null) {
+      _slectedCurrency = val;
+      _inSelectedCurrency.add(val);
+    }
+  }
+
+  final _favCurrenciesController = StreamController<List<Currency>>.broadcast();
+  Sink<List<Currency>> get _inFavCurrencyList => _favCurrenciesController.sink;
+
+  Stream<List<Currency>> get outFavCurrencyList =>
+      _favCurrenciesController.stream.asBroadcastStream();
+
+
+  final _selectedCurrencyController = StreamController<Currency>.broadcast();
+
+  Sink<Currency> get _inSelectedCurrency => _selectedCurrencyController.sink;
+
+  Stream<Currency> get outSelectedCurrency =>
+      _selectedCurrencyController.stream.asBroadcastStream();
 
   @override
   void dispose() {
-    _streamCurrencyCtrlr.close();
+    _favCurrenciesController?.close();
+    _selectedCurrencyController?.close();
   }
 
-  Stream<Currency> get outStreamCurrencyCtrlr =>
-      _streamCurrencyCtrlr.stream.asBroadcastStream();
-
-  Sink<Currency> get _inSettingCtrlr => _streamCurrencyCtrlr.sink;
-
-  void changeUserBaseCurrency(Currency newMoney) {
-    print('BASE: ${newMoney.isoCode}');
-    _inSettingCtrlr.add(newMoney);
-    api.appUser.baseCurrency = newMoney;
+  void changeUserBaseCurrency(Currency money) {
+    selectedCurrency = money;
+    api.updateBaseCurrency(money);
   }
 
-  void addNewFavCurrency(Currency newFavCurrency) {
-    _inSettingCtrlr.add(newFavCurrency);
-    if (!api.appUser.favesCurrencies.contains(newFavCurrency)) {
-      api.appUser.favesCurrencies.add(newFavCurrency);
+  bool addFavCurrency(Currency favCurrency) {
+    if (!favCurrencies.contains(favCurrency)) {
+      selectedCurrency = favCurrency;
+      _inFavCurrencyList.add(favCurrencies);
+      api.addUserFavouriteCurrency(favCurrency);
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    print('State of favs: ${api.appUser.favesCurrencies.toList().toString()}');
+  bool removeFavCurrency(Currency favCurrency) {
+    if (favCurrencies.contains(favCurrency)) {
+      selectedCurrency = favCurrency;
+      _inFavCurrencyList.add(favCurrencies);
+      api.deleteUserFavouriteCurrency(favCurrency);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void getDataFromApi() {
+    selectedCurrency = api.appUser.baseCurrency;
+    favCurrencies = api.appUser.favesCurrencies;
   }
 }

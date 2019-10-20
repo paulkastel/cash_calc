@@ -11,4 +11,16 @@ class ApiHandler {
   }
   static const String httpAdress = 'https://api.exchangeratesapi.io/';
   User appUser;
+
+  void updateBaseCurrency(Currency newMoney) {
+    appUser.baseCurrency = newMoney;
+  }
+
+  void addUserFavouriteCurrency(Currency incomingMoney) {
+    appUser.favesCurrencies.add(incomingMoney);
+  }
+
+  void deleteUserFavouriteCurrency(Currency favCurrency) {
+    appUser.favesCurrencies.remove(favCurrency);
+  }
 }

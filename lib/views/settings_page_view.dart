@@ -1,6 +1,5 @@
 import 'package:cash_calc/bloc/currency_bloc.dart';
 import 'package:cash_calc/models/currency_model.dart';
-import 'package:cash_calc/network_layer/api.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -39,8 +38,8 @@ class _SettingsPageViewState extends State<SettingsPageView> {
               children: <Widget>[
                 const Text('Select base currency: '),
                 StreamBuilder<Currency>(
-                  stream: _moneyBloc.outStreamCurrencyCtrlr,
-                  initialData: api.appUser.baseCurrency,
+                  stream: _moneyBloc.outSelectedCurrency,
+                  initialData: _moneyBloc.selectedCurrency,
                   builder:
                       (BuildContext context, AsyncSnapshot<Currency> snapshot) {
                     return DropdownButton<Currency>(
