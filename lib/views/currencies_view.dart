@@ -1,4 +1,6 @@
+import 'package:cash_calc/bloc/currency_bloc.dart';
 import 'package:cash_calc/models/currency_model.dart';
+import 'package:cash_calc/services/bloc_provider.dart';
 import 'package:cash_calc/views/currency_details_view.dart';
 import 'package:flutter/material.dart';
 
@@ -26,32 +28,39 @@ class _CurrenciesViewState extends State<CurrenciesView> {
 
   @override
   Widget build(BuildContext context) {
+    final _moneyBloc = BlocProvider.of<CurrencyBloc>(context);
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: DropdownButton<Currency>(
-            underline: const SizedBox(),
-            value: _selectedCurrency,
-            onChanged: (Currency selected) {
-              setState(() {
-                if (!_favouriteCurrencies.contains(selected)) {
-                  _favouriteCurrencies.add(selected);
-                  _selectedCurrency = selected;
-                  _showSnackBar(
-                      context, 'You observe now: ${selected.name} rates');
-                }
-              });
-            },
-            items: currencies.map((Currency currency) {
-              return DropdownMenuItem<Currency>(
-                value: currency,
-                child: Text('${currency.flag} ${currency.name}',
-                    style: Theme.of(context).textTheme.body1),
-              );
-            }).toList(),
-          ),
-        ),
+            padding: const EdgeInsets.only(top: 20.0),
+            child: StreamBuilder<Currency>(
+              stream: _moneyBloc.outStreamCurrencyCtrlr,
+              initialData: _selectedCurrency,
+              builder:
+                  (BuildContext context, AsyncSnapshot<Currency> snapshot) {
+                return DropdownButton<Currency>(
+                  underline: const SizedBox(),
+                  value: snapshot.data,
+                  onChanged: (Currency selected) {
+                    setState(() {
+                      if (!_favouriteCurrencies.contains(selected)) {
+                        _moneyBloc.addNewFavCurrency(selected);
+                        _selectedCurrency = selected;
+                        _showSnackBar(
+                            context, 'You observe now: ${selected.name} rates');
+                      }
+                    });
+                  },
+                  items: currencies.map((Currency currency) {
+                    return DropdownMenuItem<Currency>(
+                      value: currency,
+                      child: Text('${currency.flag} ${currency.name}',
+                          style: Theme.of(context).textTheme.body1),
+                    );
+                  }).toList(),
+                );
+              },
+            )),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
