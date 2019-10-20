@@ -1,4 +1,4 @@
-import 'package:cash_calc/bloc/currency_bloc.dart';
+import 'package:cash_calc/blocs/currency_bloc.dart';
 import 'package:cash_calc/models/currency_model.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
 import 'package:cash_calc/views/components/dropdown_picker_cash.dart';
