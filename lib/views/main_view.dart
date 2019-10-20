@@ -14,7 +14,7 @@ class MainPageView extends StatefulWidget {
 class _MainPageViewState extends State<MainPageView> {
   final List<Widget> _children = [
     ExchangeMoneyView(),
-    BlocProvider(bloc: CurrencyBloc(), child: CurrenciesView()),
+    CurrenciesView(),
   ];
 
   final PageController _pageCtrlr = PageController(initialPage: 0);
@@ -70,11 +70,14 @@ class _MainPageViewState extends State<MainPageView> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 stops: const [0.7, 1])),
-        child: PageView(
-          controller: _pageCtrlr,
-          onPageChanged: (int currentSelectedPageIndex) =>
-              onPageChanged(currentSelectedPageIndex),
-          children: _children,
+        child: BlocProvider(
+          bloc: CurrencyBloc(),
+          child: PageView(
+            controller: _pageCtrlr,
+            onPageChanged: (int currentSelectedPageIndex) =>
+                onPageChanged(currentSelectedPageIndex),
+            children: _children,
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
