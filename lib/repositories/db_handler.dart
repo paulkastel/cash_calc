@@ -4,7 +4,8 @@ import 'package:cash_calc/models/currency_model.dart';
 import 'package:cash_calc/models/user_model.dart';
 
 DbHandler dbHandler;
-
+// TODO: add sqlie
+// TODO: add tests
 class DbHandler {
   DbHandler() {
     appUser = User(currencies[4]);
