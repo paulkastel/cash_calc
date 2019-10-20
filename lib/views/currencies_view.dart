@@ -1,6 +1,7 @@
 import 'package:cash_calc/bloc/currency_bloc.dart';
 import 'package:cash_calc/models/currency_model.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
+import 'package:cash_calc/views/components/dropdown_picker_cash.dart';
 import 'package:cash_calc/views/currency_details_view.dart';
 import 'package:flutter/material.dart';
 
@@ -23,33 +24,13 @@ class _CurrenciesViewState extends State<CurrenciesView> {
     return Column(
       children: <Widget>[
         Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: StreamBuilder<Currency>(
-              stream: _moneyBloc.outSelectedCurrency,
-              initialData: _moneyBloc.selectedCurrency,
-              builder:
-                  (BuildContext context, AsyncSnapshot<Currency> snapshot) {
-                return DropdownButton<Currency>(
-                  underline: const SizedBox(),
-                  value: snapshot.data,
-                  onChanged: (Currency selected) {
-                    setState(() {
-                      if (_moneyBloc.addFavCurrency(selected)) {
-                        _showSnackBar(
-                            context, 'You observe now: ${selected.name} rates');
-                      }
-                    });
-                  },
-                  items: currencies.map((Currency currency) {
-                    return DropdownMenuItem<Currency>(
-                      value: currency,
-                      child: Text('${currency.flag} ${currency.name}',
-                          style: Theme.of(context).textTheme.body1),
-                    );
-                  }).toList(),
-                );
-              },
-            )),
+          padding: const EdgeInsets.only(top: 20.0),
+          child: DropdownPickerCash((Currency selected) {
+            if (_moneyBloc.addFavCurrency(selected)) {
+              _showSnackBar(context, 'You observe now: ${selected.name} rates');
+            }
+          }),
+        ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -91,10 +72,11 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                     );
                                   },
                                   onLongPress: () {
-                                    _showSnackBar(context,
-                                        'You stopped observing: ${items[index].name}');
-                                    // setState(() => _moneyBloc
-                                    //     .removeFavCurrency(items[index]));
+                                    if (_moneyBloc
+                                        .removeFavCurrency(items[index])) {
+                                      _showSnackBar(context,
+                                          'You stopped observing: ${items[index].name}');
+                                    }
                                   }),
                             );
                           },
