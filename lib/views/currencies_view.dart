@@ -14,7 +14,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
   void _showSnackBar(BuildContext context, String message) {
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(message),
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800),
     ));
   }
 
@@ -27,7 +27,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
           padding: const EdgeInsets.only(top: 20.0),
           child: DropdownPickerCash((Currency selected) {
             if (_moneyBloc.addFavCurrency(selected)) {
-              _showSnackBar(context, 'You observe now: ${selected.name} rates');
+              _showSnackBar(context, 'You observe now: ${selected.name} rates.');
             }
           }),
         ),
@@ -75,7 +75,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                     if (_moneyBloc
                                         .removeFavCurrency(items[index])) {
                                       _showSnackBar(context,
-                                          'You stopped observing: ${items[index].name}');
+                                          'You stopped observing: ${items[index].name} rates.');
                                     }
                                   }),
                             );
