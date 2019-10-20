@@ -6,18 +6,20 @@ import 'package:cash_calc/services/bloc_provider.dart';
 
 class CurrencyBloc implements BlocBase {
   CurrencyBloc() {
+    selectedCurrency = currencies[0];
+    favCurrencies = List<Currency>();
     getDataFromApi();
   }
 
   List<Currency> favCurrencies;
 
-  Currency _slectedCurrency;
+  Currency _selCurrency;
 
-  Currency get selectedCurrency => _slectedCurrency;
+  Currency get selectedCurrency => _selCurrency;
 
   set selectedCurrency(Currency val) {
     if (val != null) {
-      _slectedCurrency = val;
+      _selCurrency = val;
       _inSelectedCurrency.add(val);
     }
   }
@@ -27,7 +29,6 @@ class CurrencyBloc implements BlocBase {
 
   Stream<List<Currency>> get outFavCurrencyList =>
       _favCurrenciesController.stream.asBroadcastStream();
-
 
   final _selectedCurrencyController = StreamController<Currency>.broadcast();
 
@@ -60,7 +61,6 @@ class CurrencyBloc implements BlocBase {
 
   bool removeFavCurrency(Currency favCurrency) {
     if (favCurrencies.contains(favCurrency)) {
-      selectedCurrency = favCurrency;
       _inFavCurrencyList.add(favCurrencies);
       api.deleteUserFavouriteCurrency(favCurrency);
       return true;
