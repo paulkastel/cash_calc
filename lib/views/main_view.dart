@@ -1,7 +1,9 @@
+import 'package:cash_calc/bloc/currency_bloc.dart';
+import 'package:cash_calc/services/bloc_provider.dart';
 import 'package:cash_calc/utils/app_colors.dart';
-import 'package:cash_calc/utils/app_routes.dart';
 import 'package:cash_calc/views/currencies_view.dart';
 import 'package:cash_calc/views/exchange_view.dart';
+import 'package:cash_calc/views/settings_page_view.dart';
 import 'package:flutter/material.dart';
 
 class MainPageView extends StatefulWidget {
@@ -38,7 +40,13 @@ class _MainPageViewState extends State<MainPageView> {
             onSelected: (String choosenOption) {
               switch (choosenOption) {
                 case 'Settings':
-                  Navigator.pushNamed(context, AppRoutes.settingsNav);
+                  Navigator.of(context).push(
+                    MaterialPageRoute<BuildContext>(
+                      builder: (context) => BlocProvider(
+                          bloc: CurrencyBloc(), child: SettingsPageView()),
+                    ),
+                  );
+
                   break;
                 default:
                   throw Exception('No specific option to navigate');
@@ -62,11 +70,14 @@ class _MainPageViewState extends State<MainPageView> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 stops: const [0.7, 1])),
-        child: PageView(
-          controller: _pageCtrlr,
-          onPageChanged: (int currentSelectedPageIndex) =>
-              onPageChanged(currentSelectedPageIndex),
-          children: _children,
+        child: BlocProvider(
+          bloc: CurrencyBloc(),
+          child: PageView(
+            controller: _pageCtrlr,
+            onPageChanged: (int currentSelectedPageIndex) =>
+                onPageChanged(currentSelectedPageIndex),
+            children: _children,
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
