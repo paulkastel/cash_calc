@@ -39,7 +39,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(top: 20.0),
+          padding: const EdgeInsets.symmetric(vertical: 15.0),
           child: DropdownPickerCash((Currency selected) {
             if (_moneyBloc.addFavCurrency(selected)) {
               _showSnackBar(
@@ -50,57 +50,56 @@ class _CurrenciesViewState extends State<CurrenciesView> {
           }),
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: StreamBuilder<List<Currency>>(
-                stream: _moneyBloc.outFavCurrencyList,
-                initialData: _moneyBloc.favCurrencies,
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Currency>> snapshot) {
-                  return snapshot.data.isEmpty
-                      ? Text(AppTexts.of(context).notFollowCurrencies)
-                      : ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final List<Currency> items =
-                                snapshot.data.reversed.toList();
-                            return Card(
-                              color: Theme.of(context).primaryColorLight,
-                              elevation: 2,
-                              child: ListTile(
-                                  leading: CircleAvatar(
-                                    radius: 25,
-                                    backgroundColor:
-                                        Theme.of(context).iconTheme.color,
-                                    child: Text(
-                                      items[index].flag,
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.title,
-                                    ),
+          child: StreamBuilder<List<Currency>>(
+              stream: _moneyBloc.outFavCurrencyList,
+              initialData: _moneyBloc.favCurrencies,
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Currency>> snapshot) {
+                return snapshot.data.isEmpty
+                    ? Text(AppTexts.of(context).notFollowCurrencies)
+                    : ListView.builder(
+                        padding:
+                            const EdgeInsets.only(top: 5, left: 20, right: 20),
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final List<Currency> items =
+                              snapshot.data.reversed.toList();
+                          return Card(
+                            color: Theme.of(context).primaryColorLight,
+                            elevation: 2,
+                            child: ListTile(
+                                leading: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor:
+                                      Theme.of(context).iconTheme.color,
+                                  child: Text(
+                                    items[index].flag,
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context).textTheme.title,
                                   ),
-                                  title: Hero(
-                                      tag: 'CodeDetail${items[index].isoCode}',
-                                      child: Material(
-                                          color: Colors.transparent,
-                                          child: Text(items[index].isoCode))),
-                                  subtitle: Text(items[index].name),
-                                  onTap: () =>
-                                      _navigateToShowRateDetail(items[index]),
-                                  onLongPress: () {
-                                    if (_moneyBloc
-                                        .removeFavCurrency(items[index])) {
-                                      _showSnackBar(
-                                          context,
-                                          AppTexts.of(context)
-                                                  .stopObserveNowCurrency +
-                                              ': ${items[index].name}.');
-                                    }
-                                  }),
-                            );
-                          },
-                        );
-                }),
-          ),
+                                ),
+                                title: Hero(
+                                    tag: 'CodeDetail${items[index].isoCode}',
+                                    child: Material(
+                                        color: Colors.transparent,
+                                        child: Text(items[index].isoCode))),
+                                subtitle: Text(items[index].name),
+                                onTap: () =>
+                                    _navigateToShowRateDetail(items[index]),
+                                onLongPress: () {
+                                  if (_moneyBloc
+                                      .removeFavCurrency(items[index])) {
+                                    _showSnackBar(
+                                        context,
+                                        AppTexts.of(context)
+                                                .stopObserveNowCurrency +
+                                            ': ${items[index].name}.');
+                                  }
+                                }),
+                          );
+                        },
+                      );
+              }),
         )
       ],
     );
