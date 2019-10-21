@@ -1,6 +1,7 @@
-import 'package:cash_calc/bloc/currency_bloc.dart';
+import 'package:cash_calc/blocs/currency_bloc.dart';
 import 'package:cash_calc/models/currency_model.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
+import 'package:cash_calc/utils/app_texts.dart';
 import 'package:cash_calc/views/components/dropdown_picker_cash.dart';
 import 'package:cash_calc/views/currency_details_view.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
   void _showSnackBar(BuildContext context, String message) {
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(message),
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800),
     ));
   }
 
@@ -27,7 +28,10 @@ class _CurrenciesViewState extends State<CurrenciesView> {
           padding: const EdgeInsets.only(top: 20.0),
           child: DropdownPickerCash((Currency selected) {
             if (_moneyBloc.addFavCurrency(selected)) {
-              _showSnackBar(context, 'You observe now: ${selected.name} rates');
+              _showSnackBar(
+                  context,
+                  AppTexts.of(context).startObserveNowCurrency +
+                      ': ${selected.name}.');
             }
           }),
         ),
@@ -40,7 +44,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Currency>> snapshot) {
                   return snapshot.data.isEmpty
-                      ? const Text('You don\'t follow any rate')
+                      ? Text(AppTexts.of(context).notFollowCurrencies)
                       : ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -56,26 +60,42 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                         Theme.of(context).iconTheme.color,
                                     child: Text(
                                       items[index].flag,
+                                      textAlign: TextAlign.center,
                                       style: Theme.of(context).textTheme.title,
                                     ),
                                   ),
-                                  title: Text(items[index].isoCode),
+                                  title: Hero(
+                                      tag: 'CodeDetail${items[index].isoCode}',
+                                      child: Material(
+                                          color: Colors.transparent,
+                                          child: Text(items[index].isoCode))),
                                   subtitle: Text(items[index].name),
                                   onTap: () {
-                                    print(items[index].isoCode);
-                                    Navigator.push<MaterialPageRoute>(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
+                                    Navigator.of(context).push(PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secAnimation) =>
                                             CurrencyDetailsView(items[index]),
-                                      ),
-                                    );
+                                        transitionsBuilder: (context, animation,
+                                            secAnimation, child) {
+                                          return SlideTransition(
+                                            child: child,
+                                            position: animation.drive(Tween(
+                                                    begin: const Offset(1, 1),
+                                                    end: Offset.zero)
+                                                .chain(CurveTween(
+                                                    curve:
+                                                        Curves.easeOutQuart))),
+                                          );
+                                        }));
                                   },
                                   onLongPress: () {
                                     if (_moneyBloc
                                         .removeFavCurrency(items[index])) {
-                                      _showSnackBar(context,
-                                          'You stopped observing: ${items[index].name}');
+                                      _showSnackBar(
+                                          context,
+                                          AppTexts.of(context)
+                                                  .stopObserveNowCurrency +
+                                              ': ${items[index].name}.');
                                     }
                                   }),
                             );

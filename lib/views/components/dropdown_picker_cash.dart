@@ -1,4 +1,4 @@
-import 'package:cash_calc/bloc/currency_bloc.dart';
+import 'package:cash_calc/blocs/currency_bloc.dart';
 import 'package:cash_calc/models/currency_model.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +9,10 @@ class DropdownPickerCash extends StatelessWidget {
       {this.displayLongName = true})
       : assert(onChangedCurrency != null);
 
-  final Function(Currency choosenCurrency) onChangedCurrency;
   final bool displayLongName;
+
+  final Function(Currency choosenCurrency) onChangedCurrency;
+
   @override
   Widget build(BuildContext context) {
     final CurrencyBloc _moneyBloc = BlocProvider.of<CurrencyBloc>(context);

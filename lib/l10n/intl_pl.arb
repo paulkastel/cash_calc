@@ -1,0 +1,87 @@
+{
+  "@@last_modified": "2019-10-21T20:05:44.998472",
+  "settingsText": "Ustawienia",
+  "@settingsText": {
+    "description": "Title for settings menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notFollowCurrencies": "Nie obserwujesz żadnych walut",
+  "@notFollowCurrencies": {
+    "description": "Info that user do not observe any currency rates",
+    "type": "text",
+    "placeholders": {}
+  },
+  "convertforeginCurrencyVal": "Przelicz kurs obcej waluty",
+  "@convertforeginCurrencyVal": {
+    "description": "Header: Check exchange rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currencyRateOf": "Kurs waluty",
+  "@currencyRateOf": {
+    "description": "Info about rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "valueText": "Wartość",
+  "@valueText": {
+    "description": "Estimate the monetary worth of",
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchForCurrencies": "Szukaj walut",
+  "@searchForCurrencies": {
+    "description": "Look out for currencies rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "calculationText": "Kalkulator",
+  "@calculationText": {
+    "description": "Title calculator menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currencies": "Waluty",
+  "@currencies": {
+    "description": "Title for currencies menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectBaseCurrencyText": "Wybierz domyślną walutę",
+  "@selectBaseCurrencyText": {
+    "description": "User orgin currency, from rate is count",
+    "type": "text",
+    "placeholders": {}
+  },
+  "startObserveNowCurrency": "Obserwujesz teraz",
+  "@startObserveNowCurrency": {
+    "description": "Info: user is now following exchange rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "stopObserveNowCurrency": "Przestałeś obserwować",
+  "@stopObserveNowCurrency": {
+    "description": "Info: user is stopped following exchange rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "errEnteredNumNotValid": "Wprowadzona liczba jest niepoprawna",
+  "@errEnteredNumNotValid": {
+    "description": "Error: provided number was invalid",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inputAmount": "Wpisz kwotę",
+  "@inputAmount": {
+    "description": "Info for user to enter some value",
+    "type": "text",
+    "placeholders": {}
+  },
+  "amount": "Kwota",
+  "@amount": {
+    "description": "a quantity of something",
+    "type": "text",
+    "placeholders": {}
+  }
+}

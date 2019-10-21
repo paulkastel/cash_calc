@@ -1,6 +1,7 @@
-import 'package:cash_calc/bloc/currency_bloc.dart';
+import 'package:cash_calc/blocs/currency_bloc.dart';
 import 'package:cash_calc/models/currency_model.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
+import 'package:cash_calc/utils/app_texts.dart';
 import 'package:cash_calc/views/components/dropdown_picker_cash.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +23,9 @@ class _SettingsPageViewState extends State<SettingsPageView> {
           color: Theme.of(context).iconTheme.color,
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Settings',
+        title: Text(
+          AppTexts.of(context).settingsText,
+          style: Theme.of(context).appBarTheme.textTheme.title,
         ),
       ),
       body: Column(
@@ -37,7 +39,7 @@ class _SettingsPageViewState extends State<SettingsPageView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                const Text('Select base currency: '),
+                Text(AppTexts.of(context).selectBaseCurrencyText + ':'),
                 DropdownPickerCash(
                     (Currency selected) =>
                         _moneyBloc.changeUserBaseCurrency(selected),

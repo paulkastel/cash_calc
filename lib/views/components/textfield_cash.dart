@@ -1,3 +1,4 @@
+import 'package:cash_calc/utils/app_texts.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -45,7 +46,7 @@ class _TextFieldCashState extends State<TextFieldCash> {
               if (value.isEmpty) {
                 return null;
               } else if (!regExp.hasMatch(value)) {
-                return 'Enter correct number';
+                return AppTexts.of(context).errEnteredNumNotValid;
               } else {
                 return null;
               }
@@ -60,9 +61,8 @@ class _TextFieldCashState extends State<TextFieldCash> {
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(20),
-              hintText: 'Provide value',
-              suffixText: 'usd',
-              labelText: 'Input amount',
+              hintText: AppTexts.of(context).amount,
+              labelText: AppTexts.of(context).inputAmount,
               prefixIcon: Icon(Icons.assessment),
               border: OutlineInputBorder(
                   borderSide: const BorderSide(width: 80),

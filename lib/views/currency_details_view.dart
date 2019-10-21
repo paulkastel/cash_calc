@@ -1,11 +1,26 @@
 import 'package:cash_calc/models/currency_model.dart';
+import 'package:cash_calc/models/exchange_rate_item.dart';
+import 'package:cash_calc/repositories/api_handler.dart';
 import 'package:flutter/material.dart';
 
 @immutable
-class CurrencyDetailsView extends StatelessWidget {
+class CurrencyDetailsView extends StatefulWidget {
   const CurrencyDetailsView(this.currency);
 
   final Currency currency;
+
+  @override
+  _CurrencyDetailsViewState createState() => _CurrencyDetailsViewState();
+}
+
+class _CurrencyDetailsViewState extends State<CurrencyDetailsView> {
+  Future<ExchangeRateItem> exchangeData;
+
+  @override
+  void initState() {
+    exchangeData = apiHandler.fetchAllRatesLatest(widget.currency.isoCode);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +32,29 @@ class CurrencyDetailsView extends StatelessWidget {
           color: Theme.of(context).iconTheme.color,
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          currency.isoCode,
+        title: Hero(
+          tag: 'CodeDetail${widget.currency.isoCode}',
+          child: Material(
+            color: Colors.transparent,
+            child: Text(
+              widget.currency.isoCode,
+              style: Theme.of(context).appBarTheme.textTheme.title,
+            ),
+          ),
         ),
       ),
-      body: Text(
-        'Details of ${currency.name}',
-        style: Theme.of(context).textTheme.body1,
+      body: Center(
+        child: FutureBuilder<ExchangeRateItem>(
+          future: exchangeData,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data.rates.toString());
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }
