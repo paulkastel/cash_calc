@@ -48,7 +48,16 @@ class _CurrencyDetailsViewState extends State<CurrencyDetailsView> {
           future: exchangeData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data.rates.toString());
+              return ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 70),
+                  itemCount: snapshot.data.rates.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    return ListTile(
+                      title: Text(
+                          snapshot.data.rates.values.elementAt(i).toString()),
+                      trailing: Text(snapshot.data.rates.keys.elementAt(i)),
+                    );
+                  });
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
