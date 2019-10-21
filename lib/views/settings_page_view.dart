@@ -25,6 +25,7 @@ class _SettingsPageViewState extends State<SettingsPageView> {
         ),
         title: Text(
           AppTexts.of(context).settingsText,
+          style: Theme.of(context).appBarTheme.textTheme.title,
         ),
       ),
       body: Column(

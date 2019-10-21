@@ -64,16 +64,29 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                       style: Theme.of(context).textTheme.title,
                                     ),
                                   ),
-                                  title: Text(items[index].isoCode),
+                                  title: Hero(
+                                      tag: 'CodeDetail${items[index].isoCode}',
+                                      child: Material(
+                                          color: Colors.transparent,
+                                          child: Text(items[index].isoCode))),
                                   subtitle: Text(items[index].name),
                                   onTap: () {
-                                    Navigator.push<MaterialPageRoute>(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
+                                    Navigator.of(context).push(PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secAnimation) =>
                                             CurrencyDetailsView(items[index]),
-                                      ),
-                                    );
+                                        transitionsBuilder: (context, animation,
+                                            secAnimation, child) {
+                                          return SlideTransition(
+                                            child: child,
+                                            position: animation.drive(Tween(
+                                                    begin: const Offset(1, 1),
+                                                    end: Offset.zero)
+                                                .chain(CurveTween(
+                                                    curve:
+                                                        Curves.easeOutQuart))),
+                                          );
+                                        }));
                                   },
                                   onLongPress: () {
                                     if (_moneyBloc

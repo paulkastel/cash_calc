@@ -31,6 +31,14 @@ class CashCalcApp extends StatelessWidget {
           iconTheme: IconThemeData(
             color: AppColors.white,
           ),
+          appBarTheme: AppBarTheme(
+            textTheme: TextTheme(
+              title: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 21,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
           textTheme: TextTheme(
             title: TextStyle(
                 color: AppColors.white,
