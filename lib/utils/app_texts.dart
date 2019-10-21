@@ -119,6 +119,33 @@ class AppTexts {
       locale: localeName,
     );
   }
+
+  String get errEnteredNumNotValid {
+    return Intl.message(
+      'Entered value is incorrect',
+      name: 'errEnteredNumNotValid',
+      desc: 'Error: provided number was invalid',
+      locale: localeName,
+    );
+  }
+
+  String get inputAmount {
+    return Intl.message(
+      'Input amount',
+      name: 'inputAmount',
+      desc: 'Info for user to enter some value',
+      locale: localeName,
+    );
+  }
+
+  String get amount {
+    return Intl.message(
+      'Amount',
+      name: 'amount',
+      desc: 'a quantity of something',
+      locale: localeName,
+    );
+  }
 }
 
 class AppTextsDelegate extends LocalizationsDelegate<AppTexts> {

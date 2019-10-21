@@ -65,5 +65,23 @@
     "description": "Info: user is stopped following exchange rate",
     "type": "text",
     "placeholders": {}
+  },
+  "errEnteredNumNotValid": "Die eingegebene Nummer ist ungültig",
+  "@errEnteredNumNotValid": {
+    "description": "Error: provided number was invalid",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inputAmount": "Geben Sie den Betrag eint",
+  "@inputAmount": {
+    "description": "Info for user to enter some value",
+    "type": "text",
+    "placeholders": {}
+ },
+  "amount": "Betrag",
+  "@amount": {
+    "description": "a quantity of something",
+    "type": "text",
+    "placeholders": {}
   }
 }

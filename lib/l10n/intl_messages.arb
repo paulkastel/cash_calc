@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-10-21T21:13:46.435212",
+  "@@last_modified": "2019-10-21T22:07:09.686498",
   "settingsText": "Settings",
   "@settingsText": {
     "description": "Title for settings menu",
@@ -63,6 +63,24 @@
   "stopObserveNowCurrency": "You stopped observing",
   "@stopObserveNowCurrency": {
     "description": "Info: user is stopped following exchange rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "errEnteredNumNotValid": "Entered value is incorrect",
+  "@errEnteredNumNotValid": {
+    "description": "Error: provided number was invalid",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inputAmount": "Input amount",
+  "@inputAmount": {
+    "description": "Info for user to enter some value",
+    "type": "text",
+    "placeholders": {}
+  },
+  "amount": "Amount",
+  "@amount": {
+    "description": "a quantity of something",
     "type": "text",
     "placeholders": {}
   }

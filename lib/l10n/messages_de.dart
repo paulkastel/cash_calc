@@ -21,10 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "amount" : MessageLookupByLibrary.simpleMessage("Betrag"),
     "calculationText" : MessageLookupByLibrary.simpleMessage("Rechner"),
     "convertforeginCurrencyVal" : MessageLookupByLibrary.simpleMessage("Wechselkurs umrechnen"),
     "currencies" : MessageLookupByLibrary.simpleMessage("Währungen"),
     "currencyRateOf" : MessageLookupByLibrary.simpleMessage("Geldkurs"),
+    "errEnteredNumNotValid" : MessageLookupByLibrary.simpleMessage("Die eingegebene Nummer ist ungültig"),
+    "inputAmount" : MessageLookupByLibrary.simpleMessage("Geben Sie den Betrag eint"),
     "notFollowCurrencies" : MessageLookupByLibrary.simpleMessage("Sie folgen keinen Währungen"),
     "searchForCurrencies" : MessageLookupByLibrary.simpleMessage("Suche nach Währungen"),
     "selectBaseCurrencyText" : MessageLookupByLibrary.simpleMessage("Wählen Sie die Standardwährung"),
