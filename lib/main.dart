@@ -2,9 +2,11 @@ import 'package:cash_calc/repositories/api_handler.dart';
 import 'package:cash_calc/repositories/db_handler.dart';
 import 'package:cash_calc/utils/app_colors.dart';
 import 'package:cash_calc/utils/app_routes.dart';
+import 'package:cash_calc/utils/app_texts.dart';
 import 'package:cash_calc/views/main_view.dart';
 import 'package:cash_calc/views/settings_page_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   dbHandler = DbHandler();
@@ -33,7 +35,7 @@ class CashCalcApp extends StatelessWidget {
             title: TextStyle(
                 color: AppColors.white,
                 fontWeight: FontWeight.w700,
-                fontSize: 29),
+                fontSize: 25),
             headline: TextStyle(
                 color: AppColors.black,
                 fontSize: 22.0,
@@ -46,6 +48,16 @@ class CashCalcApp extends StatelessWidget {
           ),
           fontFamily: 'Barlow',
         ),
+        localizationsDelegates: [
+          const AppTextsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('de', 'DE'),
+          Locale('pl', 'PL')
+        ],
         home: MainPageView());
   }
 }

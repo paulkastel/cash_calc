@@ -2,10 +2,10 @@ include: package:pedantic/analysis_options.yaml
 
 analyzer:
   exclude: 
-    - lib/l10n/**.dart
-  strong-mode:
-    implicit-dynamic: false
-    implicit-casts: false
+    - lib/l10n/**
+  # strong-mode:
+  #   implicit-dynamic: false
+  #   implicit-casts: false
   errors:
     missing_required_param: error
     missing_return: warning

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cash_calc/utils/app_texts.dart';
 import 'package:cash_calc/views/components/textfield_cash.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,7 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
-          child: Text('Check foregin currency value',
+          child: Text(AppTexts.of(context).convertforeginCurrencyVal,
               style: Theme.of(context).textTheme.headline),
         ),
         TextFieldCash(_txtEditCtrlr, () {
@@ -53,7 +54,7 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
         }),
         Padding(
           padding: const EdgeInsets.all(15.0),
-          child: Text('Currency rate of usd: 4.3',
+          child: Text(AppTexts.of(context).currencyRateOf+' usd: 4.3',
               style: Theme.of(context).textTheme.headline),
         ),
         AnimatedBuilder(
@@ -85,9 +86,9 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
                 ),
               );
             }),
-        const Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Text('Value:'),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(AppTexts.of(context).valueText+':'),
         ),
       ],
     );

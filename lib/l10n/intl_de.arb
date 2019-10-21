@@ -1,0 +1,69 @@
+{
+  "@@last_modified": "2019-10-21T20:05:44.998472",
+  "settingsText": "Einstellungen",
+  "@settingsText": {
+    "description": "Title for settings menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notFollowCurrencies": "Sie folgen keinen Währungen",
+  "@notFollowCurrencies": {
+    "description": "Info that user do not observe any currency rates",
+    "type": "text",
+    "placeholders": {}
+  },
+  "convertforeginCurrencyVal": "Wechselkurs umrechnen",
+  "@convertforeginCurrencyVal": {
+    "description": "Header: Check exchange rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currencyRateOf": "Geldkurs",
+  "@currencyRateOf": {
+    "description": "Info about rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "valueText": "Wert",
+  "@valueText": {
+    "description": "Estimate the monetary worth of",
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchForCurrencies": "Suche nach Währungen",
+  "@searchForCurrencies": {
+    "description": "Look out for currencies rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "calculationText": "Rechner",
+  "@calculationText": {
+    "description": "Title calculator menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currencies": "Währungen",
+  "@currencies": {
+    "description": "Title for currencies menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectBaseCurrencyText": "Wählen Sie die Standardwährung",
+  "@selectBaseCurrencyText": {
+    "description": "User orgin currency, from rate is count",
+    "type": "text",
+    "placeholders": {}
+  },
+  "startObserveNowCurrency": "Sie sehen gerade",
+  "@startObserveNowCurrency": {
+    "description": "Info: user is now following exchange rate",
+    "type": "text",
+    "placeholders": {}
+  },
+  "stopObserveNowCurrency": "Du hast aufgehört zu schauen",
+  "@stopObserveNowCurrency": {
+    "description": "Info: user is stopped following exchange rate",
+    "type": "text",
+    "placeholders": {}
+  }
+}

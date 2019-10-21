@@ -1,6 +1,7 @@
 import 'package:cash_calc/blocs/currency_bloc.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
 import 'package:cash_calc/utils/app_colors.dart';
+import 'package:cash_calc/utils/app_texts.dart';
 import 'package:cash_calc/views/currencies_view.dart';
 import 'package:cash_calc/views/exchange_view.dart';
 import 'package:cash_calc/views/settings_page_view.dart';
@@ -46,7 +47,6 @@ class _MainPageViewState extends State<MainPageView> {
                           bloc: CurrencyBloc(), child: SettingsPageView()),
                     ),
                   );
-
                   break;
                 default:
                   throw Exception('No specific option to navigate');
@@ -82,7 +82,7 @@ class _MainPageViewState extends State<MainPageView> {
       ),
       floatingActionButton: FloatingActionButton(
         // TODO(paulkastel): depending on the screen it should do different thing
-        tooltip: 'Search for currencies',
+        tooltip: AppTexts.of(context).searchForCurrencies,
         onPressed: () {},
         child: Icon(
           Icons.search,
@@ -94,11 +94,11 @@ class _MainPageViewState extends State<MainPageView> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.import_export),
-            title: const Text('Exchange'),
+            title: Text(AppTexts.of(context).calculationText),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance),
-            title: const Text('Currencies'),
+            title: Text(AppTexts.of(context).currencies),
           ),
         ],
         onTap: (int currentSelectedPageIndex) {

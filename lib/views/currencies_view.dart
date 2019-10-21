@@ -1,6 +1,7 @@
 import 'package:cash_calc/blocs/currency_bloc.dart';
 import 'package:cash_calc/models/currency_model.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
+import 'package:cash_calc/utils/app_texts.dart';
 import 'package:cash_calc/views/components/dropdown_picker_cash.dart';
 import 'package:cash_calc/views/currency_details_view.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,10 @@ class _CurrenciesViewState extends State<CurrenciesView> {
           padding: const EdgeInsets.only(top: 20.0),
           child: DropdownPickerCash((Currency selected) {
             if (_moneyBloc.addFavCurrency(selected)) {
-              _showSnackBar(context, 'You observe now: ${selected.name} rates.');
+              _showSnackBar(
+                  context,
+                  AppTexts.of(context).startObserveNowCurrency +
+                      ': ${selected.name}.');
             }
           }),
         ),
@@ -40,7 +44,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Currency>> snapshot) {
                   return snapshot.data.isEmpty
-                      ? const Text('You don\'t follow any rate')
+                      ? Text(AppTexts.of(context).notFollowCurrencies)
                       : ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -56,6 +60,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                         Theme.of(context).iconTheme.color,
                                     child: Text(
                                       items[index].flag,
+                                      textAlign: TextAlign.center,
                                       style: Theme.of(context).textTheme.title,
                                     ),
                                   ),
@@ -73,8 +78,11 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                   onLongPress: () {
                                     if (_moneyBloc
                                         .removeFavCurrency(items[index])) {
-                                      _showSnackBar(context,
-                                          'You stopped observing: ${items[index].name} rates.');
+                                      _showSnackBar(
+                                          context,
+                                          AppTexts.of(context)
+                                                  .stopObserveNowCurrency +
+                                              ': ${items[index].name}.');
                                     }
                                   }),
                             );
