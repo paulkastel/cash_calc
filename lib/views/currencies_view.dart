@@ -19,6 +19,20 @@ class _CurrenciesViewState extends State<CurrenciesView> {
     ));
   }
 
+  void _navigateToShowRateDetail(Currency item) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, secAnimation) =>
+            CurrencyDetailsView(item),
+        transitionsBuilder: (context, animation, secAnimation, child) {
+          return SlideTransition(
+            child: child,
+            position: animation.drive(
+                Tween(begin: const Offset(1, 1), end: Offset.zero)
+                    .chain(CurveTween(curve: Curves.easeOutQuart))),
+          );
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     final _moneyBloc = BlocProvider.of<CurrencyBloc>(context);
@@ -70,24 +84,8 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                           color: Colors.transparent,
                                           child: Text(items[index].isoCode))),
                                   subtitle: Text(items[index].name),
-                                  onTap: () {
-                                    Navigator.of(context).push(PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                                secAnimation) =>
-                                            CurrencyDetailsView(items[index]),
-                                        transitionsBuilder: (context, animation,
-                                            secAnimation, child) {
-                                          return SlideTransition(
-                                            child: child,
-                                            position: animation.drive(Tween(
-                                                    begin: const Offset(1, 1),
-                                                    end: Offset.zero)
-                                                .chain(CurveTween(
-                                                    curve:
-                                                        Curves.easeOutQuart))),
-                                          );
-                                        }));
-                                  },
+                                  onTap: () =>
+                                      _navigateToShowRateDetail(items[index]),
                                   onLongPress: () {
                                     if (_moneyBloc
                                         .removeFavCurrency(items[index])) {
