@@ -8,6 +8,7 @@ import 'package:cash_calc/utils/app_texts.dart';
 import 'package:cash_calc/views/components/dropdown_picker_cash.dart';
 import 'package:cash_calc/views/components/textfield_cash.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ExchangeMoneyView extends StatefulWidget {
   final CurrencyBloc _baseCBloc = CurrencyBloc();
@@ -46,11 +47,11 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
 
   void animateIcon() {
     if (_flipDirection) {
-      setState(() => _flipDirection = false);
+      setState(() => _flipDirection = !_flipDirection);
       _animationCtrlr.forward();
     } else {
       _animationCtrlr.reverse();
-      setState(() => _flipDirection = true);
+      setState(() => _flipDirection = !_flipDirection);
     }
   }
 
@@ -78,7 +79,8 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
     latestExchangeRate = await Future.value(exchangeRate);
   }
 
-  void exchangeMoney(double rate) {
+  Future<void> exchangeMoney(double rate) async {
+    latestExchangeRate = await exchangeRate;
     final double value = double.tryParse(_txtEditCtrlr.text);
     setState(() {
       if (value != null) {
@@ -87,7 +89,6 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
       } else {
         currencyCalculatedOutput = 0;
       }
-      print('$value * $latestExchangeRate =  $currencyCalculatedOutput');
     });
   }
 
@@ -108,9 +109,9 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
                 BlocProvider(
                   bloc: widget._baseCBloc,
                   child: DropdownPickerCash((Currency base) {
+                    exchangeMoney(latestExchangeRate);
                     widget._baseCBloc.selectedCurrency = base;
                     doRequest(_flipDirection);
-                    exchangeMoney(latestExchangeRate);
                   }, displayLongName: false),
                 ),
                 AnimatedBuilder(
@@ -122,9 +123,9 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
                         splashColor: Theme.of(context).accentColor,
                         shape: CircleBorder(),
                         onPressed: () {
+                          animateIcon();
                           doRequest(_flipDirection);
                           exchangeMoney(latestExchangeRate);
-                          animateIcon();
                         },
                         child: Transform(
                           alignment: Alignment.center,
@@ -151,9 +152,9 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
                 BlocProvider(
                   bloc: widget._counterCBloc,
                   child: DropdownPickerCash((Currency counter) {
+                    exchangeMoney(latestExchangeRate);
                     widget._counterCBloc.selectedCurrency = counter;
                     doRequest(_flipDirection);
-                    exchangeMoney(latestExchangeRate);
                   }, displayLongName: false),
                 )
               ],
@@ -194,7 +195,10 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
                 maxLines: 3,
                 text: TextSpan(children: [
                   TextSpan(
-                    text: currencyCalculatedOutput.toStringAsFixed(3),
+                    text: NumberFormat('#,###.###',
+                            Localizations.localeOf(context).toString())
+                        .format(
+                            currencyCalculatedOutput), //(currencyCalculatedOutput.toStringAsFixed(3)),
                     style: TextStyle(
                         color: AppColors.black,
                         fontSize: 40,
