@@ -1,9 +1,9 @@
 import 'package:cash_calc/blocs/currency_bloc.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
-import 'package:cash_calc/utils/app_colors.dart';
 import 'package:cash_calc/utils/app_texts.dart';
 import 'package:cash_calc/views/currencies_view.dart';
 import 'package:cash_calc/views/exchange_view.dart';
+import 'package:cash_calc/views/gradient_decoration.dart';
 import 'package:cash_calc/views/settings_page_view.dart';
 import 'package:flutter/material.dart';
 
@@ -15,11 +15,25 @@ class MainPageView extends StatefulWidget {
 class _MainPageViewState extends State<MainPageView> {
   final List<Widget> _children = [
     ExchangeMoneyView(),
-    CurrenciesView(),
+    BlocProvider(child: CurrenciesView(), bloc: CurrencyBloc()),
   ];
 
   final PageController _pageCtrlr = PageController(initialPage: 0);
   int _selectedViewIndex = 0;
+
+  @override
+  void dispose() {
+    _pageCtrlr.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _pageCtrlr.addListener(() {
+      FocusScope.of(context).requestFocus(FocusNode());
+    });
+    super.initState();
+  }
 
   void onPageChanged(int selPageId) =>
       setState(() => _selectedViewIndex = selPageId);
@@ -64,29 +78,12 @@ class _MainPageViewState extends State<MainPageView> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [AppColors.olive, AppColors.white],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0.7, 1])),
-        child: BlocProvider(
-          bloc: CurrencyBloc(),
-          child: PageView(
-            controller: _pageCtrlr,
-            onPageChanged: (int currentSelectedPageIndex) =>
-                onPageChanged(currentSelectedPageIndex),
-            children: _children,
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        // TODO(paulkastel): depending on the screen it should do different thing
-        tooltip: AppTexts.of(context).searchForCurrencies,
-        onPressed: () {},
-        child: Icon(
-          Icons.search,
-          color: Theme.of(context).iconTheme.color,
+        decoration: appGradient,
+        child: PageView(
+          controller: _pageCtrlr,
+          onPageChanged: (int currentSelectedPageIndex) =>
+              onPageChanged(currentSelectedPageIndex),
+          children: _children,
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
