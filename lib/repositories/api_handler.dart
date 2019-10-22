@@ -97,6 +97,8 @@ class ApiHandler {
       } else {
         throw const HttpException('Connection failed!');
       }
+    } on HandshakeException {
+      throw 'Error estabishing connection';
     } on FormatException {
       rethrow;
     } on HttpException {

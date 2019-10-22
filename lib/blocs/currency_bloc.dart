@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cash_calc/models/currency_model.dart';
+import 'package:cash_calc/repositories/api_handler.dart';
 import 'package:cash_calc/repositories/db_handler.dart';
 import 'package:cash_calc/services/bloc_provider.dart';
 
@@ -8,7 +9,7 @@ class CurrencyBloc implements BlocBase {
   CurrencyBloc() {
     selectedCurrency = currencies[0];
     favCurrencies = List<Currency>();
-    getDataFromApi();
+    _getDataFromDb();
   }
 
   List<Currency> favCurrencies;
@@ -48,6 +49,18 @@ class CurrencyBloc implements BlocBase {
     dbHandler.updateBaseCurrency(money);
   }
 
+  double performCashExchange(double amount, double rate) {
+    try {
+      if (rate < 0 || amount < 0) {
+        throw Exception('Invalid values - rate: $rate, value: $amount');
+      }
+      return amount * rate;
+    } on Exception {
+      print('xdxdxd');
+      rethrow;
+    }
+  }
+
   bool addFavCurrency(Currency favCurrency) {
     if (!favCurrencies.contains(favCurrency)) {
       selectedCurrency = favCurrency;
@@ -69,8 +82,13 @@ class CurrencyBloc implements BlocBase {
     }
   }
 
-  void getDataFromApi() {
+  void _getDataFromDb() {
     selectedCurrency = dbHandler.appUser.baseCurrency;
     favCurrencies = dbHandler.appUser.favesCurrencies;
+  }
+
+  Future<double> getCurrentRate(String counterCurrency) async {
+    final res = await apiHandler.fetchSpecificRateAtLatest(selectedCurrency.isoCode, counterCurrency);
+    return res.rates[counterCurrency];
   }
 }
