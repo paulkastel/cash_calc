@@ -94,6 +94,7 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
 
   @override
   Widget build(BuildContext context) {
+    exchangeMoney(latestExchangeRate);
     return SingleChildScrollView(
       child: Center(
         child: Column(
