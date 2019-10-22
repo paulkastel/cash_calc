@@ -174,7 +174,11 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
                         TextFieldCash(_txtEditCtrlr, () {
                           latestExchangeRate = snapshot.data;
                           exchangeMoney(latestExchangeRate);
-                        }),
+                        },
+                            _flipDirection
+                                ? widget._baseCBloc.selectedCurrency.isoCode
+                                : widget
+                                    ._counterCBloc.selectedCurrency.isoCode),
                       ],
                     );
                   } else {

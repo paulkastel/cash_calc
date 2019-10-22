@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 @immutable
 class TextFieldCash extends StatefulWidget {
-  const TextFieldCash(this.txtCtrlr, this.performCalculations);
+  const TextFieldCash(this.txtCtrlr, this.performCalculations, [this.currencyIso='']);
 
   final TextEditingController txtCtrlr;
   final VoidCallback performCalculations;
+  final String currencyIso;
 
   @override
   _TextFieldCashState createState() => _TextFieldCashState();
@@ -64,6 +65,7 @@ class _TextFieldCashState extends State<TextFieldCash> {
               hintText: AppTexts.of(context).amount,
               labelText: AppTexts.of(context).inputAmount,
               prefixIcon: Icon(Icons.assessment),
+              suffixText: widget.currencyIso,
               border: OutlineInputBorder(
                   borderSide: const BorderSide(width: 80),
                   borderRadius: BorderRadius.circular(20)),
