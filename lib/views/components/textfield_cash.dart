@@ -29,7 +29,7 @@ class _TextFieldCashState extends State<TextFieldCash> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
       child: Container(
         width: 280,
         child: Form(
@@ -60,7 +60,7 @@ class _TextFieldCashState extends State<TextFieldCash> {
               FocusScope.of(context).requestFocus(FocusNode());
             },
             decoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(20),
+              contentPadding: const EdgeInsets.all(15),
               hintText: AppTexts.of(context).amount,
               labelText: AppTexts.of(context).inputAmount,
               prefixIcon: Icon(Icons.assessment),
