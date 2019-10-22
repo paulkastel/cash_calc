@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 @immutable
 class TextFieldCash extends StatefulWidget {
-  const TextFieldCash(this.txtCtrlr, this.performCalculations, [this.currencyIso='']);
+  const TextFieldCash(this.txtCtrlr, this.performCalculations,
+      [this.currencyIso = '']);
 
   final TextEditingController txtCtrlr;
   final VoidCallback performCalculations;
@@ -42,16 +43,8 @@ class _TextFieldCashState extends State<TextFieldCash> {
             style: Theme.of(context).textTheme.subhead,
             autovalidate: _autoValidation,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            validator: (String value) {
-              final regExp = RegExp(r'^\d+(\.\d{1,5})?$');
-              if (value.isEmpty) {
-                return null;
-              } else if (!regExp.hasMatch(value)) {
-                return AppTexts.of(context).errEnteredNumNotValid;
-              } else {
-                return null;
-              }
-            },
+            validator: (String value) => validateInput(
+                value, AppTexts.of(context).errEnteredNumNotValid),
             onChanged: (String value) {
               _setAutoValidation(true);
               _countMoneyOnlyIfValidated();
@@ -74,5 +67,15 @@ class _TextFieldCashState extends State<TextFieldCash> {
         ),
       ),
     );
+  }
+}
+
+String validateInput(String input, String error) {
+  if (input.isEmpty) {
+    return null;
+  } else if (!RegExp(r'^\d+(\.\d{1,5})?$').hasMatch(input)) {
+    return error;
+  } else {
+    return null;
   }
 }
