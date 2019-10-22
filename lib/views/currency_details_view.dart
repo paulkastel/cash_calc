@@ -54,8 +54,13 @@ class _CurrencyDetailsViewState extends State<CurrencyDetailsView> {
                   itemBuilder: (BuildContext context, int i) {
                     return ListTile(
                       title: Text(
-                          snapshot.data.rates.values.elementAt(i).toString()),
-                      trailing: Text(snapshot.data.rates.keys.elementAt(i)),
+                        snapshot.data.rates.values.elementAt(i).toString(),
+                        textAlign: TextAlign.end,
+                      ),
+                      trailing: Text(
+                        snapshot.data.rates.keys.elementAt(i),
+                        textAlign: TextAlign.end,
+                      ),
                     );
                   });
             } else if (snapshot.hasError) {

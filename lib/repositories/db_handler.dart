@@ -11,7 +11,7 @@ DbHandler dbHandler;
 // TODO: add tests
 class DbHandler {
   DbHandler() {
-    appUser = User(currencies[4]);
+    appUser = User(currencies[17]);
   }
 
   User appUser;
