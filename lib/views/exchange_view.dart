@@ -42,6 +42,7 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
     );
     currencyCalculatedOutput = 0;
     doRequest(_flipDirection);
+    exchangeMoney(latestExchangeRate);
     super.initState();
   }
 
@@ -94,7 +95,6 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
 
   @override
   Widget build(BuildContext context) {
-    exchangeMoney(latestExchangeRate);
     return SingleChildScrollView(
       child: Center(
         child: Column(
@@ -110,9 +110,9 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
                 BlocProvider(
                   bloc: widget._baseCBloc,
                   child: DropdownPickerCash((Currency base) {
-                    exchangeMoney(latestExchangeRate);
                     widget._baseCBloc.selectedCurrency = base;
                     doRequest(_flipDirection);
+                    exchangeMoney(latestExchangeRate);
                   }, displayLongName: false),
                 ),
                 AnimatedBuilder(
@@ -136,7 +136,7 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
                                 Tween(begin: 0.0, end: 0.5)
                                     .animate(CurvedAnimation(
                                         parent: _animationCtrlr,
-                                        curve: Interval(0.0, 0.7,
+                                        curve: Interval(0.0, 0.5,
                                             curve: Curves.ease)))
                                     .value),
                           child: RotatedBox(
@@ -153,9 +153,9 @@ class _ExchangeMoneyViewState extends State<ExchangeMoneyView>
                 BlocProvider(
                   bloc: widget._counterCBloc,
                   child: DropdownPickerCash((Currency counter) {
-                    exchangeMoney(latestExchangeRate);
                     widget._counterCBloc.selectedCurrency = counter;
                     doRequest(_flipDirection);
+                    exchangeMoney(latestExchangeRate);
                   }, displayLongName: false),
                 )
               ],
