@@ -66,6 +66,15 @@ class CashCalcApp extends StatelessWidget {
           Locale('de', 'DE'),
           Locale('pl', 'PL')
         ],
+        localeResolutionCallback: (Locale locale, supportedLocales) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode &&
+                supportedLocale.countryCode == locale.countryCode) {
+              return supportedLocale;
+            }
+          }
+          return supportedLocales.first;
+        },
         home: MainPageView());
   }
 }
